@@ -1,8 +1,7 @@
-var currDate = new Date;
-const clockTxt = document.querySelector("h1");
-const txtBubble = document.querySelector("div");
-let lastDate = 218409381092830;
-let quotes = ['Have more than you show, Speak less than you know.',
+import sys, pygame, random
+from datetime import datetime
+
+quotes = ['Have more than you show, Speak less than you know.',
 'What a terrible era in which idiots govern the blind.',
 'When I got enough confidence, the stage was gone. When I was sure of losing, I won. When I needed people the most, they left me. When I learnt to dry my tears, I found a shoulder to cry on. And when I mastered the art of hating, somebody started loving me.',
 'The Eyes are the window to your soul',
@@ -98,21 +97,71 @@ let quotes = ['Have more than you show, Speak less than you know.',
 'Lawless are they that make their wills their law.',
 'Give thy thoughts no tongue.',
 'You will never age for me, nor fade, nor die.',
-] 
-setInterval(()=>{
-    currDate = new Date;
-    currH = currDate.getHours();
-    currM = currDate.getMinutes();
-    if(currH < 10){
-        currH = "0"+currH;
-    }
-    if(currM < 10){
-        currM = "0"+currM;
-    }
-        clockTxt.innerText= currH + ":" + currM;
-    if(lastDate != currDate.getDate()){
-        console.log(currDate.getDate())
-        txtBubble.innerText = quotes[Math.floor(Math.random() * quotes.length)];
-        lastDate = currDate.getDate();
-    }
-},1000)
+]
+
+
+pygame.init()
+
+size = width, height = 480, 320
+screen = pygame.display.set_mode(size)
+black = (0,0,0)
+white = (255,255,255)
+
+font1 = pygame.font.Font('Roboto-Regular.ttf', 48)
+font2 = pygame.font.Font('Roboto-Regular.ttf', 24)
+lastdate = 0
+new_quote = "wweee"
+
+
+bg = pygame.image.load("bg.png")
+bgrect = bg.get_rect()
+
+def quotus_maximus(str, startx,starty,maxx):
+    quoteWord = str.split(" ")
+    newx = startx
+    newy = starty
+    space = 10
+    marginy = 3
+
+    for i in range(len(quoteWord)):
+        quoteTxt = font2.render(quoteWord[i], True, black, white)
+        quoteTxtRect = quoteTxt.get_rect()
+        
+        if(newx + space + quoteTxtRect.width >= maxx):
+            newy += quoteTxtRect.height + marginy
+            quoteTxtRect.topleft = (startx,newy)
+            newx = startx + quoteTxtRect.width + space
+        
+        else:
+            quoteTxtRect.topleft = (newx,newy)
+            newx += quoteTxtRect.width + space
+        
+        screen.blit(quoteTxt,quoteTxtRect)
+        print(screen)
+
+def blitz():
+    now = datetime.now()
+
+    text = font1.render(now.strftime("%H:%M"), True, black)
+    textRect = text.get_rect()
+    textRect.center = (80,100)
+    screen.blit(text,textRect)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit()
+    
+    screen.blit(bg,bgrect)
+    now = datetime.now()
+
+    text = font1.render(now.strftime("%H:%M"), True, black)
+    textRect = text.get_rect()
+    textRect.center = (80,100)
+
+    if(lastdate != now.strftime("%d")):
+        lastdate = now.strftime("%d")
+        new_quote = random.choice(quotes)
+        
+    blitz()
+    quotus_maximus(new_quote,20,180,470)
+    pygame.display.flip()
