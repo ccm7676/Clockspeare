@@ -102,8 +102,8 @@ quotes = ['Have more than you show, Speak less than you know.',
 
 pygame.init()
 
-size = width, height = 480, 320
-screen = pygame.display.set_mode(size)
+
+screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 black = (0,0,0)
 white = (255,255,255)
 
