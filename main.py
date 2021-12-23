@@ -107,6 +107,8 @@ screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 black = (0,0,0)
 white = (255,255,255)
 
+pygame.mouse.set_visible(False)
+
 font1 = pygame.font.Font('Roboto-Regular.ttf', 48)
 font2 = pygame.font.Font('Roboto-Regular.ttf', 24)
 lastdate = 0
